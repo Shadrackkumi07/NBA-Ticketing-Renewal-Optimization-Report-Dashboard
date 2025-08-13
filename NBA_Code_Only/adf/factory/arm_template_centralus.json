@@ -1,0 +1,278 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.DataFactory/factories",
+      "apiVersion": "2018-06-01",
+      "name": "adf-nba-ticketing-full-starter",
+      "properties": {
+        "linkedServices": [
+          {
+            "name": "LS_AzureSqlDB",
+            "properties": {
+              "type": "AzureSqlDatabase",
+              "typeProperties": {
+                "connectionString": "Server=tcp:YOUR_AZURE_SQL_SERVER.database.windows.net,1433;Database=YOUR_DB;"
+              }
+            }
+          },
+          {
+            "name": "LS_Blob",
+            "properties": {
+              "type": "AzureBlobStorage",
+              "typeProperties": {
+                "connectionString": "DefaultEndpointsProtocol=https;AccountName=YOUR_STORAGE;EndpointSuffix=core.windows.net"
+              }
+            }
+          }
+        ],
+        "datasets": [
+          {
+            "name": "DS_stg_Game",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Game"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Seat",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Seat"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Customer",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Customer"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_TicketSales",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_TicketSales"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Renewals",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Renewals"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Attendance",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Attendance"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Channel",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Channel"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Plan",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Plan"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_Territory",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_Territory"
+              }
+            }
+          },
+          {
+            "name": "DS_stg_SecurityUserMap",
+            "properties": {
+              "linkedServiceName": {
+                "referenceName": "LS_AzureSqlDB",
+                "type": "LinkedServiceReference"
+              },
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "tableName": "dbo.stg_SecurityUserMap"
+              }
+            }
+          }
+        ],
+        "pipelines": [
+          {
+            "name": "PL_Master_Daily",
+            "properties": {
+              "activities": [
+                {
+                  "name": "Load_DimGame",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimGame"
+                  }
+                },
+                {
+                  "name": "Load_DimSeat",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimSeat"
+                  }
+                },
+                {
+                  "name": "Load_DimCustomer",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimCustomer"
+                  }
+                },
+                {
+                  "name": "Load_DimChannel",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimChannel"
+                  }
+                },
+                {
+                  "name": "Load_DimPlan",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimPlan"
+                  }
+                },
+                {
+                  "name": "Load_DimTerritory",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_DimTerritory"
+                  }
+                },
+                {
+                  "name": "Load_FactTicketSales",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_FactTicketSales"
+                  }
+                },
+                {
+                  "name": "Load_FactAttendance",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_FactAttendance"
+                  }
+                },
+                {
+                  "name": "Load_FactRenewals",
+                  "type": "SqlServerStoredProcedure",
+                  "typeProperties": {
+                    "storedProcedureName": "dbo.sp_Load_FactRenewals"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "PL_Load_Synthetic_Once",
+            "properties": {
+              "activities": [
+                {
+                  "name": "KickMaster",
+                  "type": "ExecutePipeline",
+                  "typeProperties": {
+                    "pipeline": {
+                      "referenceName": "PL_Master_Daily",
+                      "type": "PipelineReference"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "triggers": [
+          {
+            "name": "Trigger_Daily_0300",
+            "properties": {
+              "type": "ScheduleTrigger",
+              "typeProperties": {
+                "recurrence": {
+                  "frequency": "Day",
+                  "interval": 1,
+                  "startTime": "2025-01-01T09:00:00Z"
+                }
+              },
+              "pipelines": [
+                {
+                  "pipelineReference": {
+                    "referenceName": "PL_Master_Daily",
+                    "type": "PipelineReference"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "location": "centralus"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+PlanId,PlanType,GameCount,PriceTier
+1,Single,1,Silver
+2,Mini,10,Gold
+3,Half,20,Gold
+4,Full,41,Platinum

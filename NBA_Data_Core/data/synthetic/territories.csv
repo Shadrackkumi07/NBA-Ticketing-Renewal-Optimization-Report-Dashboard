@@ -1,0 +1,6 @@
+TerritoryId,TerritoryName,RepId,Region
+1,North,101,North
+2,South,102,South
+3,East,103,East
+4,West,104,West
+5,Central,105,Central

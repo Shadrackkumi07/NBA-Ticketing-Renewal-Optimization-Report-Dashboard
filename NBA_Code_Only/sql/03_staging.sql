@@ -1,0 +1,10 @@
+IF OBJECT_ID('dbo.stg_Game') IS NULL CREATE TABLE dbo.stg_Game (GameId INT, Season NVARCHAR(20), Opponent NVARCHAR(100), GameDate DATE, PromoFlag BIT);
+IF OBJECT_ID('dbo.stg_Seat') IS NULL CREATE TABLE dbo.stg_Seat (SeatId BIGINT, Section NVARCHAR(50), [Row] NVARCHAR(10), Seat NVARCHAR(10), Zone NVARCHAR(50), PriceTier NVARCHAR(50));
+IF OBJECT_ID('dbo.stg_Customer') IS NULL CREATE TABLE dbo.stg_Customer (CustomerId BIGINT, AccountId BIGINT, Segment NVARCHAR(50), Tenure INT, Zip NVARCHAR(10), IncomeBand NVARCHAR(50));
+IF OBJECT_ID('dbo.stg_TicketSales') IS NULL CREATE TABLE dbo.stg_TicketSales (TicketId BIGINT, SeatId BIGINT, GameId INT, CustomerId BIGINT, SalesChannelId INT, PricePaid DECIMAL(18,2), Discount DECIMAL(18,2), SaleDate DATETIME2, Fees DECIMAL(18,2), IsRenewal BIT, OrderId BIGINT);
+IF OBJECT_ID('dbo.stg_Renewals') IS NULL CREATE TABLE dbo.stg_Renewals (CustomerId BIGINT, AccountId BIGINT, PlanId INT, Season NVARCHAR(20), PriorSpend DECIMAL(18,2), RenewedFlag BIT, RenewalDate DATE, RenewalAmount DECIMAL(18,2));
+IF OBJECT_ID('dbo.stg_Attendance') IS NULL CREATE TABLE dbo.stg_Attendance (GameId INT, ScannedCount INT, NoShowCount INT, GateOpenTime DATETIME2);
+IF OBJECT_ID('dbo.stg_Channel') IS NULL CREATE TABLE dbo.stg_Channel (SalesChannelId INT, ChannelName NVARCHAR(50));
+IF OBJECT_ID('dbo.stg_Plan') IS NULL CREATE TABLE dbo.stg_Plan (PlanId INT, PlanType NVARCHAR(50), GameCount INT, PriceTier NVARCHAR(50));
+IF OBJECT_ID('dbo.stg_Territory') IS NULL CREATE TABLE dbo.stg_Territory (TerritoryId INT, TerritoryName NVARCHAR(100), RepId INT, Region NVARCHAR(100));
+IF OBJECT_ID('dbo.stg_SecurityUserMap') IS NULL CREATE TABLE dbo.stg_SecurityUserMap (UPN NVARCHAR(255), TerritoryId INT);
